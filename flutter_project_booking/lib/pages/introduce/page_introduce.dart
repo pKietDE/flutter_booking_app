@@ -6,10 +6,8 @@ import '../../interfaces/constants/assets_icon.dart';
 import '../../widgets/my_button.dart';
 import '../../utils/logger.dart';
 import '../login/sign_in.dart';
-import '../../widgets/alert.dart';
 
 // *Kiởi tạo các đối tượng
-final alert = AlertSignIn();
 final button = MyButton();
 final logger = MyLogger("Page Introduce");
 
@@ -79,7 +77,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGreen,
+                                                color: AssetColor.softGrey,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 20),
                                         height: 65,
@@ -93,9 +91,12 @@ class IntroducePage extends StatelessWidget {
                                             SizedBox(width: 15),
                                             Text(
                                               'Cập nhật & Trạng thái đặt phòng',
-                                              style: AssetStyle.body1.copyWith(
-                                                  color: AssetColor.freshBlue,
-                                                  fontWeight: FontWeight.w600),
+                                              style: AssetStyle.body1NotoSans
+                                                  .copyWith(
+                                                      color:
+                                                          AssetColor.freshBlue,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                             ),
                                           ],
                                         ),
@@ -103,7 +104,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGreen,
+                                                color: AssetColor.softGrey,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 20),
                                         height: 65,
@@ -118,9 +119,12 @@ class IntroducePage extends StatelessWidget {
                                             SizedBox(width: 15),
                                             Text(
                                               'Cập nhật trạng thái hỗ trợ',
-                                              style: AssetStyle.body1.copyWith(
-                                                  color: AssetColor.freshBlue,
-                                                  fontWeight: FontWeight.w600),
+                                              style: AssetStyle.body1NotoSans
+                                                  .copyWith(
+                                                      color:
+                                                          AssetColor.freshBlue,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                             ),
                                           ],
                                         ),
@@ -128,7 +132,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGreen,
+                                                color: AssetColor.softGrey,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 10),
                                         height: 65,
@@ -142,9 +146,12 @@ class IntroducePage extends StatelessWidget {
                                             SizedBox(width: 15),
                                             Text(
                                               'Ưu đãi gần đây & Quảng cáo',
-                                              style: AssetStyle.body1.copyWith(
-                                                  color: AssetColor.freshBlue,
-                                                  fontWeight: FontWeight.w600),
+                                              style: AssetStyle.body1NotoSans
+                                                  .copyWith(
+                                                      color:
+                                                          AssetColor.freshBlue,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                             ),
                                           ],
                                         ),

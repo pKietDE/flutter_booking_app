@@ -23,178 +23,139 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-                flex: 1,
-                child: Image.asset(AssetImages.signinImage, fit: BoxFit.fill)),
-          ],
-        ),
-        Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Column(
-                children: [
-                  Image.asset(AssetImages.brandingImage),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30.0),
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child:
+                      Image.asset(AssetImages.signinImage, fit: BoxFit.fill)),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Column(
+              children: [
+                Image.asset(AssetImages.brandingImage),
+                SizedBox(height: 40),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30.0),
+                  child: Form(
+                    key: _formKey,
                     child: Column(
                       children: [
-                        Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: account,
-                                  decoration: InputDecoration(
-                                    labelText: "Tài khoản",
-                                    labelStyle: AssetStyle.h4,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 20, // Khoảng cách trên và dưới
-                                      horizontal:
-                                          20, // Khoảng cách trái và phải
-                                    ),
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  validator: (account) {
-                                    if (account == null || account.isEmpty) {
-                                      return "Vui lòng nhập tài khoản .";
-                                    }
-                                    return null;
-                                  },
+                        TextFormField(
+                          controller: account,
+                          decoration: InputDecoration(
+                            labelText: "Tài khoản",
+                            labelStyle: AssetStyle.h4NotoSerif,
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 20,
+                            ),
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (account) {
+                            if (account == null || account.isEmpty) {
+                              return "Vui lòng nhập tài khoản .";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 30),
+                        TextFormField(
+                          controller: passWord,
+                          decoration: InputDecoration(
+                            labelText: "Mật khẩu",
+                            labelStyle: AssetStyle.h4NotoSans,
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 20,
+                            ),
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (pass) {
+                            if (pass == null || pass.isEmpty) {
+                              return "Vui lòng nhập mật khẩu.";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 30),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AssetColor.blue,
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              print("Đăng nhập thành công!");
+                            }
+                          },
+                          child: Text(
+                            "Đăng nhập",
+                            style: AssetStyle.buttonNotoSans.copyWith(
+                              color: AssetColor.textWhite,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Đăng nhập bằng ",
+                                style: AssetStyle.h4NotoSans,
+                              ),
+                            ),
+                            Image.asset(AssetIcon.icFacebook),
+                          ],
+                        ),
+                        Divider(
+                          color: AssetColor.softGrey,
+                          thickness: 2,
+                          indent: 50,
+                          endIndent: 50,
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Chưa có tài khoản? ",
+                              style: AssetStyle.subtitle1NotoSans,
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                button.buttonMove(context, SignUpPage(),
+                                    isback: false);
+                              },
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                "Đăng ký",
+                                style: AssetStyle.subtitle2NotoSans.copyWith(
+                                  color: AssetColor.blue,
+                                  decoration: TextDecoration.underline,
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                TextFormField(
-                                  controller: passWord,
-                                  decoration: InputDecoration(
-                                    labelText: "Mật khẩu",
-                                    labelStyle: AssetStyle.h4,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 20, // Khoảng cách trên và dưới
-                                      horizontal:
-                                          20, // Khoảng cách trái và phải
-                                    ),
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  validator: (pass) {
-                                    if (pass == null || pass.isEmpty) {
-                                      return "Vui lòng nhập mật khẩu.";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(height: 30),
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AssetColor.blue,
-                                      ),
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          // Xử lý đăng nhập nếu hợp lệ
-                                          print("Đăng nhập thành công!");
-                                        }
-                                      },
-                                      child: Text(
-                                        "Đăng nhập",
-                                        style: AssetStyle.button.copyWith(
-                                          color: AssetColor.textWhite,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                // *Các phương thức đăng nhập
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          child: Text(
-                                            "Đăng nhập bằng ",
-                                            style: AssetStyle.h4,
-                                          ),
-                                        ),
-                                        Image.asset(AssetIcon.icFacebook),
-                                      ],
-                                    ),
-                                    Divider(
-                                      color: AssetColor.softGreen,
-                                      thickness: 2,
-                                      indent: 50,
-                                      endIndent: 50,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Chưa có tài khoản? ",
-                                          style: AssetStyle.subtitle1,
-                                        ),
-                                        TextButton(
-                                            // * Di chuyển tới trang đăng ký
-
-                                            onPressed: () {
-                                              button.buttonMove(
-                                                  context, SignUpPage(),
-                                                  isback: false);
-                                            },
-                                            style: TextButton.styleFrom(
-                                              minimumSize: Size.zero,
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                            child: Text(
-                                              "Đăng ký",
-                                              style:
-                                                  AssetStyle.subtitle2.copyWith(
-                                                color: AssetColor.blue,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            )),
-      ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     ));
   }
 }

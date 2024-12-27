@@ -12,7 +12,7 @@ abstract class DialogBuilder {
       {required bool isSuccess, required Enum typeAlert, int timeShow = 2});
 }
 
-class AlertSignIn implements DialogBuilder {
+class MyAlert implements DialogBuilder {
   @override
   void alertSystem(BuildContext context,
       {required Enum typeAlert, bool isSuccess = true, int timeShow = 2}) {
@@ -51,7 +51,7 @@ class AlertSignIn implements DialogBuilder {
             children: [
               Text(
                 '${alert}',
-                style: AssetStyle.h4,
+                style: AssetStyle.h4NotoSans,
               ),
               const SizedBox(
                 height: 60,
@@ -74,4 +74,6 @@ class AlertSignIn implements DialogBuilder {
     todo: thì hiện lên dialog nút để chuyển qua trang đăng ký 
     */
   }
+
+  void alertWait(BuildContext context) {}
 }
