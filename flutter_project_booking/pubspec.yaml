@@ -26,6 +26,8 @@ flutter:
     - assets/icons/
     - assets/icons/2x/
     - assets/icons/3x/
+    - assets/images/
+    - assets/icons/
     - assets/icons/right/
   
   fonts:

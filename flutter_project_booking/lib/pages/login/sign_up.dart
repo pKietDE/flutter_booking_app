@@ -365,64 +365,64 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildPhoneInput() {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: DropdownButton<String>(
-              value: selectedCode,
-              isExpanded: true,
-              underline: Container(),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              items: countryCodes.map((String code) {
-                return DropdownMenuItem(
-                  value: code,
-                  child: Text(code),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCode = newValue!;
-                });
-              },
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey[300]!),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: DropdownButton<String>(
+                value: selectedCode,
+                isExpanded: true,
+                underline: Container(),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                items: countryCodes.map((String code) {
+                  return DropdownMenuItem(
+                    value: code,
+                    child: Text(code),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCode = newValue!;
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            height: 55,
-            width: 1,
-            color: AssetColor.softGrey,
-          ),
-          Expanded(
-              flex: 2,
-              child: Form(
-                key: _formKeyStep1,
-                child: TextFormField(
-                  controller: phoneNumber,
-                  keyboardType: TextInputType.phone,
-                  // * Validate số điện thoại
-                  validator: (phone) {
-                    if (phone == null || phone.isEmpty) {
-                      return 'Vui lòng nhập số điện thoại';
-                    }
-                    if (!MyRegex.isValidPhoneNumber(phone)) {
-                      return 'Số điện thoại chỉ có 9 số \nKhông có số "0" ở đầu.';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: "Số điện thoại",
-                    labelStyle: AssetStyle.h4NotoSans,
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            Container(
+              height: 55,
+              width: 1,
+              color: AssetColor.softGrey,
+            ),
+            Expanded(
+                flex: 2,
+                child: Form(
+                  key: _formKeyStep1,
+                  child: TextFormField(
+                    controller: phoneNumber,
+                    keyboardType: TextInputType.phone,
+                    // * Validate số điện thoại
+                    validator: (phone) {
+                      if (phone == null || phone.isEmpty) {
+                        return 'Vui lòng nhập số điện thoại';
+                      }
+                      if (!MyRegex.isValidPhoneNumber(phone)) {
+                        return 'Số điện thoại chỉ có 9 số \nKhông có số "0" ở đầu.';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Số điện thoại",
+                      labelStyle: AssetStyle.h4NotoSans,
+                      border: InputBorder.none,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
-                ),
-              )),
-        ],
-      ),
-    );
+                )),
+          ],
+        ));
   }
 }

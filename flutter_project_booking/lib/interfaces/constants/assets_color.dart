@@ -15,6 +15,7 @@ class AssetColor {
 
   // *Gray Palette
   static const Color softGrey = Color(0xffD0C4C4); // Màu xanh lá dạ (gray)
+  static const Color softGreen = Color(0xffD0C4C4); // Màu xanh lá dạ (gray)
   static const Color textWhite =
       Color.fromARGB(255, 247, 245, 245); // Màu trắng chữ
   static const Color disabledWhite = Color(0xffEFEFEF); // Màu trắng disable

@@ -6,8 +6,10 @@ import '../../interfaces/constants/assets_icon.dart';
 import '../../widgets/my_button.dart';
 import '../../utils/logger.dart';
 import '../login/sign_in.dart';
+import '../../widgets/alert.dart';
 
 // *Kiởi tạo các đối tượng
+final alert = MyAlert();
 final button = MyButton();
 final logger = MyLogger("Page Introduce");
 
@@ -77,7 +79,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGrey,
+                                                color: AssetColor.softGreen,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 20),
                                         height: 65,
@@ -104,7 +106,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGrey,
+                                                color: AssetColor.softGreen,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 20),
                                         height: 65,
@@ -132,7 +134,7 @@ class IntroducePage extends StatelessWidget {
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: AssetColor.softGrey,
+                                                color: AssetColor.softGreen,
                                                 width: 3)),
                                         margin: EdgeInsets.only(bottom: 10),
                                         height: 65,
