@@ -1,0 +1,52 @@
+name: flutter_project_booking
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  firebase_auth: ^5.3.4
+  firebase_core: ^3.9.0
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.2.1
+  http: ^1.2.2
+  logging: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/images/
+    - assets/icons/
+    - assets/icons/2x/
+    - assets/icons/3x/
+    - assets/images/
+    - assets/icons/
+    - assets/icons/right/
+  
+  fonts:
+    - family: Notosans
+      fonts:
+        - asset: assets/fonts/NotoSans.ttf
+        - asset: assets/fonts/NotoSans_Italic.ttf
+          style: italic 
+          
+    - family: NotoSerif
+      fonts:
+        - asset: assets/fonts/NotoSerif.ttf
+        - asset: assets/fonts/NotoSerif_Italic.ttf
+          style: italic 
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
