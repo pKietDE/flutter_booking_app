@@ -3,18 +3,13 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
+  static Future<void> loadEnv() async {
+    await dotenv.dotenv.load(fileName: ".env");
+  }
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -40,50 +35,49 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyANDKF_7E5nHI4a9HR5KBWilCaOFosanRA',
-    appId: '1:47146965244:web:3e79b853db3ed626cedf79',
-    messagingSenderId: '47146965244',
-    projectId: 'flutter-booking-app-8eeb4',
-    authDomain: 'flutter-booking-app-8eeb4.firebaseapp.com',
-    storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
-    measurementId: 'G-4B0HR2NZ6L',
-  );
+  static FirebaseOptions get web => FirebaseOptions(
+        apiKey: dotenv.dotenv.env['API_KEY_WEB'] ?? '',
+        appId: '1:47146965244:web:3e79b853db3ed626cedf79',
+        messagingSenderId: '47146965244',
+        projectId: 'flutter-booking-app-8eeb4',
+        authDomain: 'flutter-booking-app-8eeb4.firebaseapp.com',
+        storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
+        measurementId: 'G-4B0HR2NZ6L',
+      );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC4sgmHIbTd8dPTqjZvVPoDETK3TliGr70',
-    appId: '1:47146965244:android:2522c1a5d115ffd4cedf79',
-    messagingSenderId: '47146965244',
-    projectId: 'flutter-booking-app-8eeb4',
-    storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
-  );
+  static FirebaseOptions get android => FirebaseOptions(
+        apiKey: dotenv.dotenv.env['API_KEY_ANDROID'] ?? '',
+        appId: '1:47146965244:android:2522c1a5d115ffd4cedf79',
+        messagingSenderId: '47146965244',
+        projectId: 'flutter-booking-app-8eeb4',
+        storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
+      );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDllNdRyrlvguNQxkVqMIo7GKU9qXQVwTo',
-    appId: '1:47146965244:ios:796b90b44e319ba4cedf79',
-    messagingSenderId: '47146965244',
-    projectId: 'flutter-booking-app-8eeb4',
-    storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
-    iosBundleId: 'com.example.flutterProjecttBooking',
-  );
+  static FirebaseOptions get ios => FirebaseOptions(
+        apiKey: dotenv.dotenv.env['API_KEY_IOS'] ?? '',
+        appId: '1:47146965244:ios:796b90b44e319ba4cedf79',
+        messagingSenderId: '47146965244',
+        projectId: 'flutter-booking-app-8eeb4',
+        storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
+        iosBundleId: 'com.example.flutterProjecttBooking',
+      );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDllNdRyrlvguNQxkVqMIo7GKU9qXQVwTo',
-    appId: '1:47146965244:ios:796b90b44e319ba4cedf79',
-    messagingSenderId: '47146965244',
-    projectId: 'flutter-booking-app-8eeb4',
-    storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
-    iosBundleId: 'com.example.flutterProjecttBooking',
-  );
+  static FirebaseOptions get macos => FirebaseOptions(
+        apiKey: dotenv.dotenv.env['API_KEY_MACOS'] ?? '',
+        appId: '1:47146965244:ios:796b90b44e319ba4cedf79',
+        messagingSenderId: '47146965244',
+        projectId: 'flutter-booking-app-8eeb4',
+        storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
+        iosBundleId: 'com.example.flutterProjecttBooking',
+      );
 
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyANDKF_7E5nHI4a9HR5KBWilCaOFosanRA',
-    appId: '1:47146965244:web:d9cc8df7fdabc08ecedf79',
-    messagingSenderId: '47146965244',
-    projectId: 'flutter-booking-app-8eeb4',
-    authDomain: 'flutter-booking-app-8eeb4.firebaseapp.com',
-    storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
-    measurementId: 'G-F497PN9L6Z',
-  );
-
+  static FirebaseOptions get windows => FirebaseOptions(
+        apiKey: dotenv.dotenv.env['API_KEY_WINDOWNS'] ?? '',
+        appId: '1:47146965244:web:d9cc8df7fdabc08ecedf79',
+        messagingSenderId: '47146965244',
+        projectId: 'flutter-booking-app-8eeb4',
+        authDomain: 'flutter-booking-app-8eeb4.firebaseapp.com',
+        storageBucket: 'flutter-booking-app-8eeb4.firebasestorage.app',
+        measurementId: 'G-F497PN9L6Z',
+      );
 }
