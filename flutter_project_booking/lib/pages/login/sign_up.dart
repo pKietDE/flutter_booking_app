@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buttonNext() {
     String textButton = "";
     step == 1 ? textButton = "Tiếp tục" : textButton = "Đăng ký tài khoản";
-    return Container(
+    return SizedBox(
       width: 320,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         ElevatedButton(
@@ -305,7 +305,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildPassWordInput() {
     return Column(children: [
-      Container(
+      SizedBox(
         width: 300,
         child: Form(
           key: _formKeyStep2,

@@ -91,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              print("Đăng nhập thành công!");
+                              logger.logInfo("Đăng nhập thành công!");
                             }
                           },
                           child: Text(

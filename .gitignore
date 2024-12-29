@@ -398,3 +398,11 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# Folder 
+flutter_200lab
+flutter_application_1
+
+# env
+.env

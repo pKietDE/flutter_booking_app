@@ -170,7 +170,7 @@ class IntroducePage extends StatelessWidget {
           ),
           Column(
             children: [
-              SizedBox(height: 20), // Khoảng cách bên trên 20px
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
