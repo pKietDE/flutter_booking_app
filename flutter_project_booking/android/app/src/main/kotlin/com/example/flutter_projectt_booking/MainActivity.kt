@@ -1,4 +1,4 @@
-package com.example.flutter_project_booking
+package com.example.flutter_projectt_booking
 
 import io.flutter.embedding.android.FlutterActivity
 
