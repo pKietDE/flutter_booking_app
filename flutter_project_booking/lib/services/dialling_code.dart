@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<List<String>> fetchDiallingCodes() async {
-  // *Load Api từ file .env
+  // *Load Api Key từ file .env
   await dotenv.load(fileName: '.env');
 
   // *URL của API

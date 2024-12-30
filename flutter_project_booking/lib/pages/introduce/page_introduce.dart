@@ -9,6 +9,7 @@ import '../../utils/logger.dart';
 import '../login/sign_in.dart';
 import '../../widgets/alert.dart';
 import '../../firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // *Kiởi tạo các đối tượng
 final alert = MyAlert();
@@ -17,10 +18,12 @@ final logger = MyLogger("Page Introduce");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  await dotenv.load(); 
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const MyHomePage());
 }
 
@@ -62,7 +65,7 @@ class IntroducePage extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

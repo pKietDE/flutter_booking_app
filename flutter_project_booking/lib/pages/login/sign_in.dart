@@ -40,7 +40,7 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               children: [
                 Image.asset(AssetImages.brandingImage),
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),
                   child: Form(

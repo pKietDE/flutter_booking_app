@@ -4,6 +4,7 @@ import 'package:flutter_project_booking/pages/login/sign_in.dart';
 import 'package:flutter_project_booking/services/dialling_code.dart';
 import 'package:flutter_project_booking/widgets/my_button.dart';
 import 'confirmt_otp.dart';
+import '../../services/account_api.dart';
 import '../../interfaces/constants/assets_image.dart';
 import '../../interfaces/constants/assets_icon.dart';
 import '../../interfaces/constants/assets_color.dart';
@@ -31,6 +32,8 @@ class _SignUpPageState extends State<SignUpPage> {
   String finalpassWord = "";
   List<String> countryCodes = [];
   String selectedCode = '+84';
+  // *Biến để kiểm tra số điện thoại đã tồn tại chưa
+  bool isExist = false;
   var step = 1;
 
   // *Gọi API khi khởi tạo màn hình
@@ -56,6 +59,30 @@ class _SignUpPageState extends State<SignUpPage> {
         isLoading = false;
       });
       logger.logError("Lỗi : $e");
+    }
+  }
+
+  // * Hàm kiểm tra số điện thoại đã tồn tại chưa
+  Future<void> checkPhoneNumberExistence() async {
+    setState(() {
+      isLoading = true; // *Hiển thị loading khi kiểm tra
+    });
+    // *delay 2 giây
+    await Future.delayed(Duration(seconds: 2));
+
+    isExist = await isPhoneNumberAccount(fullPhoneNumber);
+    setState(() {
+      isLoading = false; // *Ẩn loading sau khi kiểm tra xong
+    });
+
+    if (isExist) {
+      // *Số điện thoại đã tồn tại
+      logger.logInfo("Số điện thoại đã tồn tại.");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Số điện thoại này đã tồn tại!")),
+        );
+      }
     }
   }
 
@@ -150,15 +177,23 @@ class _SignUpPageState extends State<SignUpPage> {
           style: ElevatedButton.styleFrom(
             backgroundColor: AssetColor.blue,
           ),
-          onPressed: () {
+          onPressed: () async {
             if (step == 1) {
               if (_formKeyStep1.currentState != null &&
                   _formKeyStep1.currentState!.validate()) {
                 setState(() {
                   fullPhoneNumber = "$selectedCode${phoneNumber.text}";
-                  logger.logInfo(fullPhoneNumber);
-                  step = 2;
+                  logger.logInfo("Set FullphoneNumber = $fullPhoneNumber");
                 });
+
+                // *Kiểm tra số điện thoại trước khi chuyển sang bước 2
+                await checkPhoneNumberExistence();
+                if (!isExist) {
+                  setState(() {
+                    step =
+                        2; // Chuyển sang bước 2 nếu số điện thoại không tồn tại
+                  });
+                }
               }
             } else {
               if (_formKeyStep2.currentState != null &&

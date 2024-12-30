@@ -24,7 +24,7 @@ class MyRegex {
     if (phone == null || phone.isEmpty) {
       return false; // todo: Trả về false nếu pass null hoặc rỗng
     }
-    final RegExp regex = RegExp(r'^[1-9][0-9]{8}');
+    final RegExp regex = RegExp(r'^[1-9][0-9]{8,10}');
     return regex.hasMatch(phone);
   }
 }

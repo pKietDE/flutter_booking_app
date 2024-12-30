@@ -6,10 +6,6 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
 class DefaultFirebaseOptions {
-  static Future<void> loadEnv() async {
-    await dotenv.dotenv.load(fileName: ".env");
-  }
-
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
