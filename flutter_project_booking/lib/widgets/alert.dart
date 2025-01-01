@@ -17,7 +17,7 @@ class MyAlert implements DialogBuilder {
   void alertSystem(BuildContext context,
       {required Enum typeAlert, bool isSuccess = true, int timeShow = 2}) {
     // *Tạo một biến động để thay đổi
-    final String? alert;
+    String? alert;
 
     // *Thay đổi giá trị thông báo tùy theo :
     // *isSuccess : True, False
@@ -25,9 +25,11 @@ class MyAlert implements DialogBuilder {
     if (isSuccess && typeAlert == EnumAlert.singin) {
       alert = "Đăng nhập thành công";
     } else if (!isSuccess && typeAlert == EnumAlert.singin) {
-      alert = "Đăng nhập thất bại";
-    } else {
-      alert = "Eror";
+      alert = "Sai số điện thoại hoặc mật khẩu";
+    } else if (isSuccess && typeAlert == EnumAlert.singup) {
+      alert = "Đăng ký thành công";
+    } else if (!isSuccess && typeAlert == EnumAlert.singup) {
+      alert = "Đăng ký thất bại";
     }
     showDialog<void>(
       context: context,
@@ -51,7 +53,7 @@ class MyAlert implements DialogBuilder {
             children: [
               Text(
                 '${alert}',
-                style: AssetStyle.h4NotoSans,
+                style: AssetStyle.body1NotoSans,
               ),
               const SizedBox(
                 height: 60,
