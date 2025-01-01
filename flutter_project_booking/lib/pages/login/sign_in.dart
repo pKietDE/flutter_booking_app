@@ -47,9 +47,8 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-  // *Hàm xác nhận đăng nhập
+  // Hàm xác nhận đăng nhập
   Future<void> confimrtSignIn(phoneNumber, passWord) async {
-    // * Gọi api lấy dữ liệu tài khoản
     bool isTrue =
         await getAccount(phoneNumber: phoneNumber, passWord: passWord);
 
@@ -95,123 +94,126 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return isLoading
         ? Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: AssetColor.textWhite,
             body: Center(
               child: CircularProgressIndicator(),
             ),
           )
         : Scaffold(
             body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Image.asset(AssetImages.signinImage,
-                            fit: BoxFit.fill)),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Column(
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Image.asset(AssetImages.brandingImage),
-                      SizedBox(height: 30),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              _buildPhoneInput(),
-                              SizedBox(height: 30),
-                              _buildPassInput(
-                                  passWord, obscureText, changeObscureText),
-                              SizedBox(height: 30),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AssetColor.blue,
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() {
-                                      fullPhoneNumber =
-                                          "$selectedCode${phoneNumber.text}";
-                                      finalPassword = passWord.text;
-                                    });
-
-                                    // * Gọi hàm confimrt để check lại thông tin đăng nhập
-                                    confimrtSignIn(
-                                        fullPhoneNumber, finalPassword);
-
-                                    logger.logInfo(
-                                        "Đăng nhập thành công! số điện thoại : $fullPhoneNumber, Pass : $finalPassword");
-                                  }
-                                },
-                                child: Text(
-                                  "Đăng nhập",
-                                  style: AssetStyle.buttonNotoSans.copyWith(
-                                    color: AssetColor.textWhite,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 10),
-                                    child: Text(
-                                      "Đăng nhập bằng ",
-                                      style: AssetStyle.h4NotoSans,
-                                    ),
-                                  ),
-                                  Image.asset(AssetIcon.icFacebook),
-                                ],
-                              ),
-                              Divider(
-                                color: AssetColor.softGrey,
-                                thickness: 2,
-                                indent: 50,
-                                endIndent: 50,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Chưa có tài khoản? ",
-                                    style: AssetStyle.subtitle1NotoSans,
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      button.buttonMove(context, SignUpPage(),
-                                          isback: false);
-                                    },
-                                    style: TextButton.styleFrom(
-                                      minimumSize: Size.zero,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                    child: Text(
-                                      "Đăng ký",
-                                      style:
-                                          AssetStyle.subtitle2NotoSans.copyWith(
-                                        color: AssetColor.blue,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      Expanded(
+                          flex: 1,
+                          child: Image.asset(AssetImages.signinImage,
+                              fit: BoxFit.fill)),
                     ],
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Column(
+                      children: [
+                        Image.asset(AssetImages.brandingImage),
+                        SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                _buildPhoneInput(),
+                                SizedBox(height: 30),
+                                _buildPassInput(
+                                    passWord, obscureText, changeObscureText),
+                                SizedBox(height: 30),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AssetColor.blue,
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        fullPhoneNumber =
+                                            "$selectedCode${phoneNumber.text}";
+                                        finalPassword = passWord.text;
+                                      });
+
+                                      // * Gọi hàm confimrt để check lại thông tin đăng nhập
+                                      confimrtSignIn(
+                                          fullPhoneNumber, finalPassword);
+
+                                      logger.logInfo(
+                                          "Đăng nhập thành công! số điện thoại : $fullPhoneNumber, Pass : $finalPassword");
+                                    }
+                                  },
+                                  child: Text(
+                                    "Đăng nhập",
+                                    style: AssetStyle.buttonNotoSans.copyWith(
+                                      color: AssetColor.textWhite,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "Đăng nhập bằng ",
+                                        style: AssetStyle.h4NotoSans,
+                                      ),
+                                    ),
+                                    Image.asset(AssetIcon.icFacebook),
+                                  ],
+                                ),
+                                Divider(
+                                  color: AssetColor.softGrey,
+                                  thickness: 2,
+                                  indent: 50,
+                                  endIndent: 50,
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Chưa có tài khoản? ",
+                                      style: AssetStyle.subtitle1NotoSans,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        button.buttonMove(context, SignUpPage(),
+                                            isback: false);
+                                      },
+                                      style: TextButton.styleFrom(
+                                        minimumSize: Size.zero,
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      child: Text(
+                                        "Đăng ký",
+                                        style: AssetStyle.subtitle2NotoSans
+                                            .copyWith(
+                                          color: AssetColor.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ));
+          );
   }
 
   // Widget cho phần nhập số điện thoại
@@ -274,31 +276,31 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
-}
 
-Widget _buildPassInput(passWord, obscureText, VoidCallback changeObscureText) {
-  return TextFormField(
-    obscureText: obscureText,
-    controller: passWord,
-    decoration: InputDecoration(
-      labelText: "Mật khẩu",
-      labelStyle: AssetStyle.h4NotoSans,
-      suffixIcon: IconButton(
-          onPressed: () {
-            changeObscureText();
-          },
-          icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility)),
-      contentPadding: EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 20,
+  // Widget cho phần nhập mật khẩu
+  Widget _buildPassInput(TextEditingController passWord, bool obscureText,
+      VoidCallback changeObscureText) {
+    return TextFormField(
+      obscureText: obscureText,
+      controller: passWord,
+      decoration: InputDecoration(
+        labelText: "Mật khẩu",
+        labelStyle: AssetStyle.h4NotoSans,
+        suffixIcon: IconButton(
+            onPressed: changeObscureText,
+            icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility)),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 20,
+        ),
+        border: OutlineInputBorder(),
       ),
-      border: OutlineInputBorder(),
-    ),
-    validator: (pass) {
-      if (pass == null || pass.isEmpty) {
-        return "Vui lòng nhập mật khẩu.";
-      }
-      return null;
-    },
-  );
+      validator: (pass) {
+        if (pass == null || pass.isEmpty) {
+          return "Vui lòng nhập mật khẩu.";
+        }
+        return null;
+      },
+    );
+  }
 }
