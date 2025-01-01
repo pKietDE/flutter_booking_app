@@ -27,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController phoneNumber = TextEditingController();
   final TextEditingController passWord = TextEditingController();
   final TextEditingController entryPassWord = TextEditingController();
+  Map<String, String> dataSignUp = {};
   bool isLoading = true;
   String fullPhoneNumber = "";
   String finalpassWord = "";
@@ -200,9 +201,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   _formKeyStep2.currentState!.validate()) {
                 setState(() {
                   finalpassWord = entryPassWord.text;
-                  logger.logInfo(
-                      "finalPass : $finalpassWord\nPhoneNumber: $fullPhoneNumber");
                 });
+                // * Di chuyển đến trang OTP
                 button.buttonMove(
                     context,
                     OtpPage(

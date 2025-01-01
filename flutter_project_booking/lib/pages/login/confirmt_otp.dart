@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_project_booking/enums/enum_alert.dart';
 import 'package:flutter_project_booking/interfaces/constants/assets_icon.dart';
 import 'package:flutter_project_booking/interfaces/constants/assets_style.dart';
-import 'package:flutter_project_booking/pages/login/sign_up.dart';
+import 'package:flutter_project_booking/pages/login/sign_in.dart';
+import '../../utils/logger.dart';
 import 'package:flutter_project_booking/widgets/my_button.dart';
 import '../../interfaces/constants/assets_color.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
+import '../../services/account_api.dart';
+import '../login/sign_up.dart';
+import '../../widgets/alert.dart';
 
 final button = MyButton();
+final logger = MyLogger("OPT Page");
+final alert = MyAlert();
 
 class OtpPage extends StatefulWidget {
   final String? phoneNumber;
@@ -28,6 +35,8 @@ class _OtpPageState extends State<OtpPage> {
       List.generate(6, (index) => TextEditingController());
   bool isOtpFilled = false;
   String verificationId = "";
+  bool isPostSuccess = false;
+  Map<String, String> dataSignUp = {};
 
   @override
   void initState() {
@@ -45,30 +54,57 @@ class _OtpPageState extends State<OtpPage> {
     super.initState();
     _startCountdown();
     _sendOtp();
-    // Lắng nghe sự thay đổi của các controllers
+    // * Khởi tạo dataSignUp
+    dataSignUp = {
+      "soDienThoai": widget.phoneNumber ?? "",
+      "matKhau": widget.password ?? "",
+    };
+
+    // *Lắng nghe sự thay đổi của các controllers
     for (var controller in controllers) {
       controller.addListener(_checkOtpStatus);
     }
   }
 
   void onResendCode() {
-    setState(() {
-      remainingTime = 120;
-      for (var controller in controllers) {
-        controller.clear(); // * Xóa đi dữ liệu chứa trong các ô
-      }
-      _startCountdown(); // * Bắt đầu đếm lại
-    });
-
-    _sendOtp(); // * Gửi lại Otp
+    if (remainingTime <= 0) {
+      setState(() {
+        remainingTime = 120;
+        for (var controller in controllers) {
+          controller.clear();
+        }
+        _startCountdown(); // * Bắt đầu đếm lại
+      });
+      _sendOtp(); // * Gửi lại OTP
+    }
   }
 
+  // * Hàm đẩy dữ liệu lên api
+  Future<void> postDataSignUp() async {
+    try {
+      //* Gửi dữ liệu đến api để thực hiện việc post dữ liệu
+      bool isSuccess = await postDataAccount(dataSignUp);
+
+      if (isSuccess) {
+        setState(() {
+          isPostSuccess = isSuccess;
+        });
+        logger.logError(
+            "Đăng ký tài khoản thành công!"); // Log thông báo thành công
+      } else {
+        logger.logError("Đăng ký tài khoản không thành công!");
+      }
+    } catch (e) {
+      logger.logError("Lỗi trong quá trình đăng ký tài khoản , Lỗi : $e");
+    }
+  }
+
+  // * Hàm gửi OTP
   Future<void> _sendOtp() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: widget.phoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await FirebaseAuth.instance.signInWithCredential(credential);
-        logger.logInfo("${widget.phoneNumber} Đăng ký thành công");
       },
       verificationFailed: (FirebaseAuthException e) {
         logger.logError("Lỗi: ${e.message}");
@@ -84,6 +120,7 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
+  // * Hàm xác thực OTP
   Future<void> verifyOtp() async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -92,7 +129,21 @@ class _OtpPageState extends State<OtpPage> {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
       logger.logInfo("Đăng ký thành công");
-      // Navigate to next page or show success message
+
+      // * Chờ API đăng ký tài khoản
+      await postDataSignUp(); // *Đảm bảo đợi xong API đăng ký
+
+      if (isPostSuccess) {
+        if (mounted) {
+          alert.alertSystem(context, typeAlert: EnumAlert.singup);
+        }
+        // * Delayed lại 2s để thông báo vừa tắt thì di chuyển qua trang đăng nhập
+        Future.delayed(Duration(seconds: 2), () {
+          if (mounted) {
+            button.buttonMove(context, SignInPage(), isback: false);
+          }
+        });
+      }
     } catch (e) {
       logger.logError("Lỗi xác thực OTP: ${e.toString()}");
       // Show error message to the user
@@ -269,8 +320,13 @@ Widget _inputOTP(
   );
 }
 
-Widget _layoutButton(remainingTime, formKey, bool isOtpFilled,
-    VoidCallback onResendCode, VoidCallback verifyOtp) {
+Widget _layoutButton(
+  remainingTime,
+  formKey,
+  bool isOtpFilled,
+  VoidCallback onResendCode,
+  VoidCallback verifyOtp,
+) {
   return SizedBox(
     width: double.infinity,
     child: Row(
@@ -310,7 +366,7 @@ Widget _layoutButton(remainingTime, formKey, bool isOtpFilled,
             padding: EdgeInsets.only(left: 8),
             child: TextButton(
               onPressed: isOtpFilled
-                  ? () {
+                  ? () async {
                       if (formKey.currentState!.validate()) {
                         verifyOtp();
                       }
