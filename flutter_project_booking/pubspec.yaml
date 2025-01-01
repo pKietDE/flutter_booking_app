@@ -30,6 +30,7 @@ flutter:
     - assets/icons/3x/
     - assets/images/
     - assets/icons/
+    - assets/icons/heart/
     - assets/icons/right/
   
   fonts:
