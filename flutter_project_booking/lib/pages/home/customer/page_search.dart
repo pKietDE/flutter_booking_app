@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_project_booking/interfaces/constants/assets_color.dart';
 import 'package:flutter_project_booking/interfaces/constants/assets_icon.dart';

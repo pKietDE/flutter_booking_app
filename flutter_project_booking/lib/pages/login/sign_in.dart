@@ -60,6 +60,7 @@ class _SignInPageState extends State<SignInPage> {
               typeAlert: EnumAlert.singin, isSuccess: false);
         }
       } else {
+        // * Nếu đúng thì di chuyển qua trang home
         if (mounted) {
           button.buttonMove(context, HomePage(), isback: false);
         } else {
@@ -75,17 +76,23 @@ class _SignInPageState extends State<SignInPage> {
   Future<void> loadDiallingCodes() async {
     try {
       List<String> codes = await fetchDiallingCodes();
-      setState(() {
-        countryCodes = codes;
-        if (!countryCodes.contains(selectedCode)) {
-          selectedCode = countryCodes.isNotEmpty ? countryCodes.first : '+84';
-        }
-        isLoading = false;
-      });
+      if (mounted) {
+        // Thêm kiểm tra mounted ở đây
+        setState(() {
+          countryCodes = codes;
+          if (!countryCodes.contains(selectedCode)) {
+            selectedCode = countryCodes.isNotEmpty ? countryCodes.first : '+84';
+          }
+          isLoading = false;
+        });
+      }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        // Thêm kiểm tra mounted ở đây nữa
+        setState(() {
+          isLoading = false;
+        });
+      }
       logger.logError("Lỗi : $e");
     }
   }

@@ -10,21 +10,25 @@ import '../login/sign_in.dart';
 import '../../widgets/alert.dart';
 import '../../firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../utils/preference_helper.dart';
 
-// *Kiởi tạo các đối tượng
+// *Khởi tạo các đối tượng
 final alert = MyAlert();
 final button = MyButton();
 final logger = MyLogger("Page Introduce");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await dotenv.load(); 
+
+  await dotenv.load();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyHomePage());
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false, // Giữ nguyên dòng này
+    home: MyHomePage(), // Thêm const ở đây
+  ));
 }
 
 class MyHomePage extends StatelessWidget {
@@ -32,19 +36,53 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: AssetColor.lightBlue,
-          appBarTheme: AppBarTheme(backgroundColor: AssetColor.lightBlue)),
-      title: "Introduce page",
-      home: IntroducePage(),
+    return FutureBuilder<bool>(
+      // *Kiểm tra xem người dùng đã xem giới thiệu chưa
+      future: PreferenceHelper.hasSeenIntroduce(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Nếu đang tải, có thể hiển thị một loading indicator
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          // Hiển thị thông báo lỗi nếu có
+          return Center(child: Text('Lỗi khi tải dữ liệu'));
+        }
+
+        // Kiểm tra nếu người dùng đã xem giới thiệu
+        if (snapshot.hasData && snapshot.data == true) {
+          // Nếu đã xem giới thiệu, chuyển đến trang đăng nhập
+          return const SignInPage();
+        } else {
+          // Nếu chưa xem, hiển thị trang giới thiệu
+          return const IntroducePage();
+        }
+      },
     );
   }
 }
 
-class IntroducePage extends StatelessWidget {
+class IntroducePage extends StatefulWidget {
   const IntroducePage({super.key});
+
+  @override
+  State<IntroducePage> createState() => _IntroducePageState();
+}
+
+class _IntroducePageState extends State<IntroducePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onPressed() async {
+    // *Đánh dấu là đã xem trang giới thiệu
+    await PreferenceHelper.setHasSeenIntroduce();
+
+    // *Sau khi nhấn nút, chuyển đến trang đăng nhập
+    button.buttonMove(context, const SignInPage(), isback: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,136 +108,56 @@ class IntroducePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Padding(padding: EdgeInsets.only(top: 20)),
-                        Image.asset(AssetImages.brandingImage),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                  height: 300,
-                                  child: ListView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: AssetColor.softGreen,
-                                                width: 3)),
-                                        margin: EdgeInsets.only(bottom: 20),
-                                        height: 65,
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              AssetIcon.icHome3D, // Icon nhà
-                                              width: 50,
-                                              height: 50,
-                                            ),
-                                            SizedBox(width: 15),
-                                            Text(
-                                              'Cập nhật & Trạng thái đặt phòng',
-                                              style: AssetStyle.body1NotoSans
-                                                  .copyWith(
-                                                      color:
-                                                          AssetColor.freshBlue,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: AssetColor.softGreen,
-                                                width: 3)),
-                                        margin: EdgeInsets.only(bottom: 20),
-                                        height: 65,
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              AssetIcon
-                                                  .icTechnicalSupport, // Icon nhà
-                                              width: 50,
-                                              height: 50,
-                                            ),
-                                            SizedBox(width: 15),
-                                            Text(
-                                              'Cập nhật trạng thái hỗ trợ',
-                                              style: AssetStyle.body1NotoSans
-                                                  .copyWith(
-                                                      color:
-                                                          AssetColor.freshBlue,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: AssetColor.softGreen,
-                                                width: 3)),
-                                        margin: EdgeInsets.only(bottom: 10),
-                                        height: 65,
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              AssetIcon.icVoucher, // Icon nhà
-                                              width: 50,
-                                              height: 50,
-                                            ),
-                                            SizedBox(width: 15),
-                                            Text(
-                                              'Ưu đãi gần đây & Quảng cáo',
-                                              style: AssetStyle.body1NotoSans
-                                                  .copyWith(
-                                                      color:
-                                                          AssetColor.freshBlue,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      const Padding(padding: EdgeInsets.only(top: 20)),
+                      Image.asset(AssetImages.brandingImage),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              height: 300,
+                              child: ListView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                children: [
+                                  _buildFeatureTile(
+                                    icon: AssetIcon.icHome3D,
+                                    text: 'Cập nhật & Trạng thái đặt phòng',
                                   ),
-                                ))
-                          ],
-                        ),
-                      ],
-                    ))
+                                  _buildFeatureTile(
+                                    icon: AssetIcon.icTechnicalSupport,
+                                    text: 'Cập nhật trạng thái hỗ trợ',
+                                  ),
+                                  _buildFeatureTile(
+                                    icon: AssetIcon.icVoucher,
+                                    text: 'Ưu đãi gần đây & Quảng cáo',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
           Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RawMaterialButton(
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     fillColor: Colors.blue,
-                    onPressed: () {
-                      // await PreferenceHelper.hasSeenIntroduce();
-
-                      // ? Kiểm tra context có còn tồn tại hay không ?
-                      // * Nếu có => Di chuyển đến trang đăng nhập
-                      // alert.alertSystem(context,
-                      //     typeAlert: EnumAlert.singin, isSuccess: false);
-
-                      if (context.mounted) {
-                        button.buttonMove(context, SignInPage(), isback: false);
-                      }
-                    },
-                    constraints: BoxConstraints(
+                    onPressed: _onPressed,
+                    constraints: const BoxConstraints(
                       minWidth: 75,
                       minHeight: 75,
                     ),
@@ -208,7 +166,30 @@ class IntroducePage extends StatelessWidget {
                 ],
               ),
             ],
-          )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeatureTile({required String icon, required String text}) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AssetColor.softGreen, width: 3),
+      ),
+      margin: const EdgeInsets.only(bottom: 20),
+      height: 65,
+      child: Row(
+        children: [
+          Image.asset(icon, width: 50, height: 50),
+          const SizedBox(width: 15),
+          Text(
+            text,
+            style: AssetStyle.body1NotoSans.copyWith(
+              color: AssetColor.freshBlue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
